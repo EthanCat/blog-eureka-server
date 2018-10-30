@@ -1,13 +1,29 @@
 spring:
   application:
     name: eureka-server
+---
+spring:
+  profiles: eureka-server-1
 server:
   port: 9000
 eureka:
   instance:
-    hostname: peer1
+    hostname: eureka-server-1
   client:
-    fetch-registry: false
-    register-with-eureka: false
+    fetch-registry: true
+    register-with-eureka: true
     service-url:
-      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+      defaultZone: http://eureka-server-2:9001/eureka/
+---
+spring:
+  profiles: eureka-server-2
+server:
+  port: 9001
+eureka:
+  instance:
+    hostname: eureka-server-2
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://eureka-server-1:9000/eureka/
